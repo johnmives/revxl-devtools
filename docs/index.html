@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>revxl-devtools — 17 MCP Dev Tools for AI Agents</title>
+  <meta name="description" content="17 developer tools for AI agents. JSON, JWT, regex with code gen, cron from English, secrets scanner, batch ops. 7 free, 10 Pro.">
+  <meta property="og:title" content="revxl-devtools — 17 MCP Dev Tools for AI Agents">
+  <meta property="og:description" content="Secrets scanning, regex-to-code in 5 languages, cron from plain English, batch ops on 500 items. 17 tools, zero bloat.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://revxl-devtools.vercel.app">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --surface-2: #1c1c20;
+      --border: #2a2a30;
+      --text: #e8e8ed;
+      --text-muted: #8b8b96;
+      --accent: #f97316;
+      --accent-hover: #fb923c;
+      --green: #22c55e;
+      --green-bg: rgba(34,197,94,0.1);
+      --green-border: rgba(34,197,94,0.2);
+      --purple: #a78bfa;
+      --purple-bg: rgba(167,139,250,0.1);
+      --purple-border: rgba(167,139,250,0.2);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,11,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-weight: 700; font-size: 18px; color: var(--text); text-decoration: none; }
+    nav .logo span { color: var(--accent); }
+    nav .links { display: flex; gap: 24px; align-items: center; }
+    nav .links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    nav .links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero { padding: 100px 0 80px; text-align: center; }
+    .hero .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 16px; font-size: 13px;
+      color: var(--text-muted); margin-bottom: 24px;
+    }
+    .hero .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.02em; }
+    .hero h1 .highlight { color: var(--accent); }
+    .hero p { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 36px; line-height: 1.7; }
+
+    /* Install block */
+    .install-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 24px;
+      max-width: 520px; margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+    }
+    .install-block code { font-size: 15px; color: var(--green); }
+    .install-block button {
+      background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--text-muted); padding: 8px 16px; border-radius: 8px;
+      font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .install-block button:hover { background: var(--border); color: var(--text); }
+
+    .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 10px; font-size: 15px;
+      font-weight: 600; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover { border-color: var(--text-muted); }
+
+    /* Stats */
+    .stats {
+      display: flex; justify-content: center; gap: 48px; padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat .num { font-size: 28px; font-weight: 700; color: var(--text); }
+    .stat .label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+    /* Section */
+    section { padding: 80px 0; }
+    .section-label { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-size: 32px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.01em; }
+    .section-desc { color: var(--text-muted); font-size: 16px; max-width: 600px; margin-bottom: 48px; }
+
+    /* Tool grid */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .tool-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .tool-card:hover { border-color: var(--text-muted); }
+    .tool-card .tool-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .tool-card .tool-name { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 600; }
+    .tool-card .tool-badge {
+      font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .tool-badge.free { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .tool-badge.pro { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+    .tool-card .tool-desc { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+    /* Showcase */
+    .showcase { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 48px; }
+    .showcase h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .showcase .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+    .showcase pre {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px; overflow-x: auto;
+      font-size: 13px; line-height: 1.7; color: var(--text-muted);
+    }
+    .showcase pre .key { color: var(--purple); }
+    .showcase pre .str { color: var(--green); }
+    .showcase pre .comment { color: #555; }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 720px; }
+    .price-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 36px; position: relative;
+    }
+    .price-card.featured { border-color: var(--accent); }
+    .price-card.featured::before {
+      content: 'BEST VALUE'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 12px; border-radius: 6px; letter-spacing: 0.06em;
+    }
+    .price-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .price-card .price { font-size: 40px; font-weight: 800; margin: 16px 0 4px; }
+    .price-card .price-note { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    .price-card ul { list-style: none; margin-bottom: 28px; }
+    .price-card li { padding: 8px 0; font-size: 14px; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
+    .price-card li::before { content: '\2713'; color: var(--green); font-weight: 700; }
+    .price-card .btn { width: 100%; justify-content: center; }
+
+    /* Comparison */
+    .comparison-table { width: 100%; border-collapse: collapse; margin-top: 32px; }
+    .comparison-table th, .comparison-table td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .comparison-table th { color: var(--text-muted); font-weight: 500; font-size: 13px; }
+    .comparison-table td:first-child { font-weight: 500; }
+    .comparison-table .check { color: var(--green); }
+    .comparison-table .cross { color: #555; }
+
+    /* CTA */
+    .final-cta {
+      text-align: center; padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .final-cta h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+    .final-cta p { color: var(--text-muted); font-size: 16px; margin-bottom: 32px; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0; text-align: center;
+      color: var(--text-muted); font-size: 13px;
+    }
+    footer a { color: var(--text-muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    /* Compatibility */
+    .compat { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+    .compat-item { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 32px; }
+      .stats { gap: 32px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">revxl-<span>devtools</span></a>
+      <div class="links">
+        <a href="#tools">Tools</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://www.npmjs.com/package/revxl-devtools" target="_blank">npm</a>
+        <a href="https://buy.stripe.com/28E14pfy1g5X1nz9HHgbm0s" class="btn btn-primary" style="padding:10px 20px; font-size:13px;">Get Pro &#8212; $7</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="badge"><span class="dot"></span> MCP Server &middot; Works with any AI agent</div>
+      <h1>17 dev tools your AI <span class="highlight">actually needs</span></h1>
+      <p>Secrets scanning, regex-to-code in 5 languages, cron from plain English, batch ops on 500 items. Zero bloat. Structured output. One install.</p>
+
+      <div class="install-block">
+        <code>npx -y revxl-devtools</code>
+        <button onclick="navigator.clipboard.writeText('npx -y revxl-devtools');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)">Copy</button>
+      </div>
+
+      <div class="hero-cta">
+        <a href="https://buy.stripe.com/28E14pfy1g5X1nz9HHgbm0s" class="btn btn-primary">Get Pro &#8212; $7 one-time</a>
+        <a href="#tools" class="btn btn-secondary">See all tools</a>
+      </div>
+
+      <div class="compat">
+        <span class="compat-item">Claude Desktop</span>
+        <span class="compat-item">Cursor</span>
+        <span class="compat-item">Windsurf</span>
+        <span class="compat-item">VS Code</span>
+        <span class="compat-item">Any MCP client</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat"><div class="num">17</div><div class="label">Tools</div></div>
+      <div class="stat"><div class="num">7</div><div class="label">Free forever</div></div>
+      <div class="stat"><div class="num">5</div><div class="label">Code gen languages</div></div>
+      <div class="stat"><div class="num">500</div><div class="label">Items per batch</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="section-label">Why this exists</div>
+      <div class="section-title">Tools your agent thinks it can do but actually butchers</div>
+      <div class="section-desc">Agents hallucinate regex, miss leaked secrets, and waste 500 round-trips on batch jobs. These tools give them structured, correct output every time.</div>
+
+      <div class="showcase">
+        <h3>secrets_scan</h3>
+        <div class="subtitle">Find leaked API keys before they cost you $50K</div>
+        <pre><span class="comment">// Input: any text, config, or code block</span>
+<span class="key">"findings"</span>: [
+  { <span class="key">"type"</span>: <span class="str">"AWS Access Key"</span>, <span class="key">"severity"</span>: <span class="str">"critical"</span>,
+    <span class="key">"recommendation"</span>: <span class="str">"Rotate immediately in AWS IAM"</span> },
+  { <span class="key">"type"</span>: <span class="str">"Anthropic API Key"</span>, <span class="key">"severity"</span>: <span class="str">"critical"</span>,
+    <span class="key">"recommendation"</span>: <span class="str">"Revoke at console.anthropic.com"</span> }
+]</pre>
+      </div>
+
+      <div class="showcase">
+        <h3>regex</h3>
+        <div class="subtitle">Test + generate production code in Python, JS, Go, Rust, Java</div>
+        <pre><span class="comment">// One call: test the pattern AND get copy-paste code</span>
+<span class="key">"matches"</span>: [<span class="str">"user@example.com"</span>, <span class="str">"test.user+tag@company.co.uk"</span>],
+<span class="key">"code"</span>: {
+  <span class="key">"python"</span>: <span class="str">"pattern = re.compile(r'^[\\w.+-]+@[\\w-]+\\.[\\w.]+$')"</span>,
+  <span class="key">"go"</span>:     <span class="str">"re := regexp.MustCompile(`^[\\w.+-]+@[\\w-]+\\.[\\w.]+$`)"</span>,
+  <span class="key">"rust"</span>:   <span class="str">"let re = Regex::new(r\"...\").unwrap();"</span>
+}</pre>
+      </div>
+
+      <div class="showcase">
+        <h3>cron</h3>
+        <div class="subtitle">Plain English to crontab, systemd, and node-cron</div>
+        <pre><span class="comment">// Input: "every weekday at 9am"</span>
+<span class="key">"expression"</span>: <span class="str">"0 9 * * 1-5"</span>,
+<span class="key">"description"</span>: <span class="str">"At 09:00, Monday through Friday"</span>,
+<span class="key">"code"</span>: {
+  <span class="key">"crontab"</span>:  <span class="str">"0 9 * * 1-5 /path/to/script.sh"</span>,
+  <span class="key">"systemd"</span>:  <span class="str">"OnCalendar=Mon..Fri *-*-* 09:00:00"</span>,
+  <span class="key">"node_cron"</span>: <span class="str">"cron.schedule('0 9 * * 1-5', () => {})"</span>
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="tools" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-label">All 17 tools</div>
+      <div class="section-title">Free tools &#8212; unlimited, forever</div>
+      <div class="section-desc">No sign-up, no limits. Just install and use.</div>
+
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">json_format</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">Pretty-print, minify, and validate JSON. Fix trailing commas and common syntax errors automatically.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">base64</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">Encode and decode base64 strings. Handles UTF-8 and binary data correctly.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">url_encode</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">URL encode/decode strings. Handles special characters, query parameters, and full URLs.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">uuid_generate</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">Generate v4 UUIDs. Batch generate up to 100 at once. Validate existing UUIDs.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">hash_text</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">Hash text with MD5, SHA-1, SHA-256, SHA-512. Compare hashes for integrity checks.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">timestamp</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">Convert between Unix timestamps, ISO 8601, and human-readable dates. Timezone-aware.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">http_status</span><span class="tool-badge free">Free</span></div>
+          <div class="tool-desc">Look up HTTP status codes with descriptions, common causes, and fix suggestions.</div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top: 64px;">Pro tools &#8212; 3 free trials each</div>
+      <div class="section-desc">Try before you buy. Every Pro tool comes with 3 free uses. No credit card needed.</div>
+
+      <div class="tools-grid">
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">secrets_scan</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Scan text for leaked API keys, tokens, and credentials. Catches AWS, GitHub, Stripe, OpenAI, Anthropic keys and more.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">regex</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Test regex patterns and generate production code in Python, JavaScript, Go, Rust, and Java.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">cron</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Convert plain English to cron expressions. Output for crontab, systemd, and node-cron. Shows next 5 run times.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">jwt</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Decode JWT tokens. Inspect headers, payloads, expiration, and claims without external tools.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">json_diff</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Deep-diff two JSON objects. Shows exact path-level additions, deletions, and changes.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">json_query</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Query JSON with JSONPath expressions. Extract nested data without writing parsing code.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">batch</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Process up to 500 items in a single call. Apply any tool operation in batch &#8212; no more round-trip waste.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">sql_format</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Format and beautify SQL queries. Supports MySQL, PostgreSQL, SQLite, and standard SQL.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">yaml_convert</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Convert between YAML and JSON. Validate YAML syntax and fix common formatting issues.</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-header"><span class="tool-name">chmod</span><span class="tool-badge pro">Pro</span></div>
+          <div class="tool-desc">Convert between symbolic and octal file permissions. Explain what any chmod value means.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-label">Pricing</div>
+      <div class="section-title">Simple. One-time. No subscriptions.</div>
+      <div class="section-desc">Pay once, use forever. Every Pro tool comes with 3 free trials so you can try before you buy.</div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price">$0</div>
+          <div class="price-note">7 tools, unlimited use, forever</div>
+          <ul>
+            <li>json_format, base64, url_encode</li>
+            <li>uuid_generate, hash_text</li>
+            <li>timestamp, http_status</li>
+            <li>No sign-up required</li>
+            <li>No usage limits</li>
+          </ul>
+          <a href="https://www.npmjs.com/package/revxl-devtools" class="btn btn-secondary" target="_blank">Install Free</a>
+        </div>
+
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <div class="price">$7</div>
+          <div class="price-note">One-time payment &middot; All 17 tools</div>
+          <ul>
+            <li>Everything in Free</li>
+            <li>secrets_scan, regex, cron</li>
+            <li>jwt, json_diff, json_query</li>
+            <li>batch (500 items/call)</li>
+            <li>sql_format, yaml_convert, chmod</li>
+            <li>3 free trials per tool &#8212; no card needed</li>
+          </ul>
+          <a href="https://buy.stripe.com/28E14pfy1g5X1nz9HHgbm0s" class="btn btn-primary">Get Pro &#8212; $7</a>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top: 80px;">How we compare</div>
+      <table class="comparison-table">
+        <thead>
+          <tr><th></th><th>mcp-devutils</th><th style="color:var(--accent)">revxl-devtools</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Price</td><td>$5 one-time</td><td>$7 one-time</td></tr>
+          <tr><td>Total tools</td><td>44</td><td>17</td></tr>
+          <tr><td>Free tools</td><td>15</td><td>7 (unlimited)</td></tr>
+          <tr><td>Regex to code gen</td><td class="cross">No</td><td class="check">Yes &#8212; 5 languages</td></tr>
+          <tr><td>Batch operations</td><td class="cross">No</td><td class="check">Yes &#8212; 500 items/call</td></tr>
+          <tr><td>Secrets scanner</td><td class="cross">No</td><td class="check">Yes</td></tr>
+          <tr><td>Cron from English</td><td class="cross">No</td><td class="check">Yes</td></tr>
+          <tr><td>Context tokens used</td><td>~44 tool definitions</td><td>~17 tool definitions</td></tr>
+        </tbody>
+      </table>
+      <p style="color: var(--text-muted); font-size: 13px; margin-top: 16px;">Fewer tools that do more &gt; more tools that duplicate your agent's native abilities.</p>
+    </div>
+  </section>
+
+  <section style="border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-label">Setup</div>
+      <div class="section-title">Add to your MCP config in 30 seconds</div>
+
+      <div class="showcase">
+        <h3>Free (all 7 tools)</h3>
+        <pre>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"devtools"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"revxl-devtools"</span>]
+    }
+  }
+}</pre>
+      </div>
+
+      <div class="showcase">
+        <h3>With Pro license</h3>
+        <pre>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"devtools"</span>: {
+      <span class="key">"command"</span>: <span class="str">"npx"</span>,
+      <span class="key">"args"</span>: [<span class="str">"-y"</span>, <span class="str">"revxl-devtools"</span>],
+      <span class="key">"env"</span>: {
+        <span class="key">"REVXL_PRO_KEY"</span>: <span class="str">"REVXL-XXXX-XXXX-XXXX"</span>
+      }
+    }
+  }
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <h2>Stop your agent from butchering dev tasks</h2>
+      <p>Install in 30 seconds. 7 free tools work immediately. Pro unlocks all 17 for a one-time $7.</p>
+      <div class="install-block" style="margin: 0 auto 24px;">
+        <code>npx -y revxl-devtools</code>
+        <button onclick="navigator.clipboard.writeText('npx -y revxl-devtools');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)">Copy</button>
+      </div>
+      <a href="https://buy.stripe.com/28E14pfy1g5X1nz9HHgbm0s" class="btn btn-primary" style="font-size:17px; padding:16px 36px;">Get Pro &#8212; $7</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Built by <a href="https://revxl.net">RevXL</a> &middot; <a href="mailto:john@revxl.net">john@revxl.net</a> &middot; <a href="https://www.npmjs.com/package/revxl-devtools" target="_blank">npm</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
