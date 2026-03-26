@@ -9,7 +9,7 @@ export { registerTool, getToolByName, getAllTools };
 // ---------------------------------------------------------------------------
 // MCP Server
 // ---------------------------------------------------------------------------
-const PURCHASE_URL = "https://revxl-devtools.vercel.app";
+const PURCHASE_URL = "https://buy.stripe.com/28E14pfy1g5X1nz9HHgbm0s";
 const server = new Server({ name: "@revxl/devtools", version: "1.0.0" }, { capabilities: { tools: {} } });
 // --- ListTools ------------------------------------------------------------
 server.setRequestHandler(ListToolsRequestSchema, async () => {
