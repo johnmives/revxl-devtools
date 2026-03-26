@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+import { registerTool, getToolByName, getAllTools } from "./registry.js";
+import type { ToolDefinition } from "./registry.js";
+export { registerTool, getToolByName, getAllTools };
+export type { ToolDefinition };
+import "./tools/json-format.js";
+import "./tools/base64.js";
+import "./tools/url-encode.js";
+import "./tools/uuid.js";
+import "./tools/hash.js";
+import "./tools/timestamp.js";
+import "./tools/http-status.js";
+import "./tools/jwt.js";
+import "./tools/regex.js";
+import "./tools/cron.js";
+import "./tools/json-diff.js";
+import "./tools/json-query.js";
+import "./tools/batch.js";
+import "./tools/sql-format.js";
+import "./tools/yaml-convert.js";
+import "./tools/chmod.js";
+import "./tools/secrets-scan.js";

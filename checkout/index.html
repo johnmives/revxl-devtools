@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@revxl/devtools Pro — Lifetime Access</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+      color: #ededed;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 16px;
+      max-width: 480px;
+      width: 100%;
+      padding: 40px 36px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #22C55E18;
+      color: #22C55E;
+      border: 1px solid #22C55E40;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ededed;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .price-block {
+      margin-bottom: 28px;
+    }
+
+    .price {
+      font-size: 56px;
+      font-weight: 800;
+      color: #22C55E;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .price-note {
+      font-size: 14px;
+      color: #888;
+      margin-top: 6px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #222;
+      margin: 28px 0;
+    }
+
+    .features-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 14px;
+    }
+
+    .features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.4;
+    }
+
+    .features li .check {
+      color: #22C55E;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .cta {
+      display: block;
+      width: 100%;
+      background: #22C55E;
+      color: #000;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+      letter-spacing: -0.01em;
+    }
+
+    .cta:hover {
+      background: #16a34a;
+    }
+
+    .cta:active {
+      transform: scale(0.98);
+    }
+
+    .stripe-note {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+      margin-top: 16px;
+    }
+
+    .stripe-note span {
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Pro</div>
+    <h1>@revxl/devtools Pro</h1>
+
+    <div class="price-block">
+      <div class="price">$7</div>
+      <div class="price-note">One-time payment. Lifetime access.</div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="features-label">Everything included</div>
+    <ul class="features">
+      <li><span class="check">&#10003;</span> JWT decode, verify, and create</li>
+      <li><span class="check">&#10003;</span> Regex tester + code gen (Python, JS, Go, Rust, Java)</li>
+      <li><span class="check">&#10003;</span> Cron from natural language</li>
+      <li><span class="check">&#10003;</span> JSON diff + JSONPath queries</li>
+      <li><span class="check">&#10003;</span> Batch operations (500 items)</li>
+      <li><span class="check">&#10003;</span> SQL formatter (PostgreSQL, MySQL, SQLite)</li>
+      <li><span class="check">&#10003;</span> YAML / JSON / TOML converter</li>
+      <li><span class="check">&#10003;</span> File permission calculator</li>
+      <li><span class="check">&#10003;</span> Secrets scanner (AWS, GitHub, Stripe, OpenAI)</li>
+    </ul>
+
+    <a class="cta" href="#" id="checkout-btn">Get Pro Key</a>
+
+    <p class="stripe-note">
+      <span>Powered by Stripe.</span> Key delivered instantly after payment.
+    </p>
+  </div>
+
+  <script>
+    // Replace with your Stripe Payment Link URL
+    const STRIPE_PAYMENT_LINK = '#';
+
+    document.getElementById('checkout-btn').addEventListener('click', function (e) {
+      if (STRIPE_PAYMENT_LINK && STRIPE_PAYMENT_LINK !== '#') {
+        e.preventDefault();
+        window.location.href = STRIPE_PAYMENT_LINK;
+      }
+    });
+  </script>
+</body>
+</html>
