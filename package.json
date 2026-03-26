@@ -1,6 +1,6 @@
 {
   "name": "revxl-devtools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "17 developer tools for AI agents. JSON, JWT, regex, cron, secrets scanner. Free core + Pro ($7).",
   "type": "module",
   "bin": {
@@ -12,9 +12,23 @@
     "start": "node dist/index.js",
     "dev": "tsx src/index.ts"
   },
-  "keywords": ["mcp", "developer-tools", "json", "jwt", "regex", "claude", "cursor", "ai-tools", "mcp-server"],
+  "keywords": [
+    "mcp",
+    "developer-tools",
+    "json",
+    "jwt",
+    "regex",
+    "claude",
+    "cursor",
+    "ai-tools",
+    "mcp-server"
+  ],
   "author": "RevXL <john@revxl.net>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnmives/revxl-devtools.git"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
